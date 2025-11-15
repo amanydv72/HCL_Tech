@@ -1,8 +1,11 @@
 import React, {useState} from 'react'
 import Register from './pages/Register'
 import Login from './pages/Login'
+import Public from './pages/Public'
+import Doctors from './pages/Doctors'
 import Navbar from './components/Navbar'
 import PatientHome from './pages/PatientHome'
+
 
 export default function App(){
   // const [route, setRoute] = useState('home')
@@ -18,19 +21,15 @@ export default function App(){
           </div>
         )}
 
-        {route === 'public' && (
-          <div className="bg-white rounded shadow p-6">
-            <h2 className="text-lg font-semibold mb-2">Public Health Info</h2>
-            <p className="text-sm text-gray-700">Basic public health guidance and resources will appear here.</p>
-          </div>
-        )}
+      
+      {route === 'public' && (
+        <Public />
+      )}
 
-        {route === 'general' && (
-          <div className="bg-white rounded shadow p-6">
-            <h2 className="text-lg font-semibold mb-2">General</h2>
-            <p className="text-sm text-gray-700">General information and FAQs.</p>
-          </div>
-        )}
+
+      {route === 'doctors' && (
+        <Doctors />
+      )}
 
         {route === 'doctors' && (
           <div className="bg-white rounded shadow p-6">
@@ -48,3 +47,6 @@ export default function App(){
     </div>
   )
 }
+
+
+
