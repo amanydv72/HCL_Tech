@@ -2,15 +2,16 @@ import React, {useState} from 'react'
 import Register from './pages/Register'
 import Login from './pages/Login'
 import Navbar from './components/Navbar'
+import PatientHome from './pages/PatientHome'
 
 export default function App(){
-  const [route, setRoute] = useState('home')
-
+  // const [route, setRoute] = useState('home')
+  const [route, setRoute] = useState('patientHome')
   return (
     <div className="min-h-screen bg-gray-50">
       <Navbar route={route} setRoute={setRoute} />
 
-      <main className="max-w-3xl mx-auto p-6">
+      <main className={route === 'patientHome' ? '' : 'max-w-3xl mx-auto p-6'}>
         {route === 'home' && (
           <div className="bg-white rounded shadow p-6">
             <p>Choose Registration or Login to continue.</p>
@@ -39,7 +40,10 @@ export default function App(){
         )}
 
         {route === 'register' && <Register />}
-        {route === 'login' && <Login />}
+        {route === 'login' && (
+          <Login onPatientLogin={() => setRoute('patientHome')} />
+        )}
+        {route === 'patientHome' && <PatientHome />}
       </main>
     </div>
   )

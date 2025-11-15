@@ -22,12 +22,15 @@ function LoginForm({fields, onSubmit, title, submitText}){
   )
 }
 
-export default function Login(){
+export default function Login({ onPatientLogin }){
   const [tab, setTab] = useState('patient')
 
   const handle = (role) => (data) => {
     console.log('Login', role, data)
     alert(`${role} login submitted — check console`)
+    if (role === 'patient' && typeof onPatientLogin === 'function') {
+      onPatientLogin()
+    }
   }
 
   return (
