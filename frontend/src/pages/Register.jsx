@@ -14,8 +14,8 @@ function FormSection({title, fields, onSubmit, submitText}){
                 <label className="block text-sm font-medium text-gray-700 mb-1">{f.label}</label>
                 {f.type === 'select' ? (
                   <select name={f.name} required={!!f.required} className="w-full rounded border-gray-300 shadow-sm focus:ring-blue-500 focus:border-blue-500 px-3 py-2">
-                    <option value="">Select specialization</option>
-                    {f.options.map(opt => (
+                    <option value="" disabled hidden>{f.placeholder || `Select ${f.label}`}</option>
+                    {f.options?.map(opt => (
                       <option key={opt} value={opt}>{opt}</option>
                     ))}
                   </select>
@@ -77,6 +77,9 @@ export default function Register(){
           onSubmit={handleSubmit('doctor')}
           fields={[
             {name:'name',label:'Name',required:true},
+            {name:'qualification',label:'Qualification',type:'select',required:true,placeholder:'Select qualification',options:[
+              'MBBS','MD','MS','DM','DNB','DO','PhD','BDS','MDS','Other'
+            ]},
             {name:'email',label:'Email',type:'email',required:true},
             {name:'password',label:'Password',type:'password',required:true},
             {
