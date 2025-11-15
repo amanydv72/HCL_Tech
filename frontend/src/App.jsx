@@ -40,8 +40,6 @@ export default function App(){
 
         {route === 'register' && <Register />}
         {route === 'login' && <Login />}
-
-        <div className="mt-4 text-sm text-gray-500">Static demo — submissions are logged to the console.</div>
       </main>
     </div>
   )
