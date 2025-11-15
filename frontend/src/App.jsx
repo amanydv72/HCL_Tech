@@ -1,27 +1,40 @@
 import React, {useState} from 'react'
 import Register from './pages/Register'
 import Login from './pages/Login'
+import Navbar from './components/Navbar'
 
 export default function App(){
   const [route, setRoute] = useState('home')
 
   return (
     <div className="min-h-screen bg-gray-50">
-      <header className="bg-white shadow">
-        <div className="max-w-4xl mx-auto px-4 py-4 flex items-center justify-between">
-          <h1 className="text-lg font-semibold">IIITD Healthcare</h1>
-          <nav className="space-x-2">
-            <button className="text-blue-600 hover:underline" onClick={()=>setRoute('home')}>Home</button>
-            <button className="text-blue-600 hover:underline" onClick={()=>setRoute('register')}>Registration</button>
-            <button className="text-blue-600 hover:underline" onClick={()=>setRoute('login')}>Login</button>
-          </nav>
-        </div>
-      </header>
+      <Navbar route={route} setRoute={setRoute} />
 
       <main className="max-w-3xl mx-auto p-6">
         {route === 'home' && (
           <div className="bg-white rounded shadow p-6">
             <p>Choose Registration or Login to continue.</p>
+          </div>
+        )}
+
+        {route === 'public' && (
+          <div className="bg-white rounded shadow p-6">
+            <h2 className="text-lg font-semibold mb-2">Public Health Info</h2>
+            <p className="text-sm text-gray-700">Basic public health guidance and resources will appear here.</p>
+          </div>
+        )}
+
+        {route === 'general' && (
+          <div className="bg-white rounded shadow p-6">
+            <h2 className="text-lg font-semibold mb-2">General</h2>
+            <p className="text-sm text-gray-700">General information and FAQs.</p>
+          </div>
+        )}
+
+        {route === 'doctors' && (
+          <div className="bg-white rounded shadow p-6">
+            <h2 className="text-lg font-semibold mb-2">Doctor List</h2>
+            <p className="text-sm text-gray-700">A list of doctors will be shown here in a full app.</p>
           </div>
         )}
 
