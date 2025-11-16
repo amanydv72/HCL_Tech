@@ -1728,60 +1728,13 @@ if (pm.response.code === 200) {
   pm.environment.set("doctor_token", jsonData.data.token);
 }
 ```
-
----
-
-## Environment Variables
-
-Required `.env` file configuration:
-
-```bash
-# Server
-PORT=5000
-NODE_ENV=development
-
-# Database
-DB_HOST=localhost
-DB_PORT=5432
-DB_NAME=hcl_tech_db
-DB_USER=postgres
-DB_PASSWORD=postgres
-
-# JWT
-JWT_SECRET=your-super-secret-jwt-key-change-in-production
-JWT_EXPIRES_IN=24h
-
-# CORS
-CLIENT_URL=http://localhost:3000
-
-# Rate Limiting
-RATE_LIMIT_WINDOW_MS=900000
-RATE_LIMIT_MAX_REQUESTS=100
-```
-
 ---
 
 ## API Versioning
 
 **Current Version:** v1 (implicit in base URL)
 
-Future versions will be accessible via:
-- `/api/v2/...`
-- Header: `Accept-Version: v2`
-
-**Deprecation Policy:**
-- 6 months notice before deprecating endpoints
-- Maintain backward compatibility for 1 major version
 
 ---
 
-## Support & Contact
 
-**Technical Support:** support@hospital.com  
-**Documentation:** https://hospital-api-docs.com  
-**Bug Reports:** https://github.com/hospital-system/issues  
-**API Status:** https://status.hospital-api.com
-
-**Version:** 1.0.0  
-**Last Updated:** November 16, 2025  
-**License:** MIT
