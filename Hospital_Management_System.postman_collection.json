@@ -1,0 +1,1621 @@
+{
+	"info": {
+		"_postman_id": "hms-api-collection-2025",
+		"name": "Hospital Management System API",
+		"description": "Complete API collection for Hospital Management System with RBAC (Admin, Doctor, Patient)",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "12345"
+	},
+	"auth": {
+		"type": "bearer",
+		"bearer": [
+			{
+				"key": "token",
+				"value": "{{token}}",
+				"type": "string"
+			}
+		]
+	},
+	"item": [
+		{
+			"name": "Authentication",
+			"item": [
+				{
+					"name": "Register Doctor",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"if (pm.response.code === 201) {",
+									"    var jsonData = pm.response.json();",
+									"    pm.environment.set(\"doctor_token\", jsonData.data.token);",
+									"    pm.environment.set(\"token\", jsonData.data.token);",
+									"    console.log(\"Doctor registered and token saved\");",
+									"}"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"email\": \"doctor@test.com\",\n  \"password\": \"doctor123\",\n  \"fullName\": \"Dr. Sarah Johnson\",\n  \"role\": \"doctor\",\n  \"phone\": \"1234567890\",\n  \"specialization\": \"Cardiology\",\n  \"qualifications\": \"MD, MBBS, FACC\",\n  \"experienceYears\": 10,\n  \"consultationFee\": 500,\n  \"availability\": [\n    {\n      \"day\": \"Monday\",\n      \"slots\": [\"09:00-12:00\", \"14:00-17:00\"]\n    },\n    {\n      \"day\": \"Wednesday\",\n      \"slots\": [\"10:00-13:00\", \"15:00-18:00\"]\n    },\n    {\n      \"day\": \"Friday\",\n      \"slots\": [\"09:00-11:00\"]\n    }\n  ]\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/auth/register",
+							"host": ["{{base_url}}"],
+							"path": ["auth", "register"]
+						},
+						"description": "Register a new doctor account with complete profile information"
+					},
+					"response": []
+				},
+				{
+					"name": "Register Patient",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"if (pm.response.code === 201) {",
+									"    var jsonData = pm.response.json();",
+									"    pm.environment.set(\"patient_token\", jsonData.data.token);",
+									"    pm.environment.set(\"token\", jsonData.data.token);",
+									"    console.log(\"Patient registered and token saved\");",
+									"}"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"email\": \"patient@test.com\",\n  \"password\": \"patient123\",\n  \"fullName\": \"John Doe\",\n  \"role\": \"patient\",\n  \"phone\": \"0987654321\",\n  \"dateOfBirth\": \"1990-05-15\",\n  \"gender\": \"Male\",\n  \"address\": \"123 Main Street, City, State 12345\",\n  \"medicalHistory\": \"No known allergies. Previous surgery: Appendectomy (2015)\"\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/auth/register",
+							"host": ["{{base_url}}"],
+							"path": ["auth", "register"]
+						},
+						"description": "Register a new patient account with medical history"
+					},
+					"response": []
+				},
+				{
+					"name": "Login Admin",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"if (pm.response.code === 200) {",
+									"    var jsonData = pm.response.json();",
+									"    pm.environment.set(\"admin_token\", jsonData.data.token);",
+									"    pm.environment.set(\"token\", jsonData.data.token);",
+									"    console.log(\"Admin logged in, token saved\");",
+									"}"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"email\": \"admin@hospital.com\",\n  \"password\": \"admin123\"\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/auth/login",
+							"host": ["{{base_url}}"],
+							"path": ["auth", "login"]
+						},
+						"description": "Login with admin credentials (default: admin@hospital.com / admin123)"
+					},
+					"response": []
+				},
+				{
+					"name": "Login Doctor",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"if (pm.response.code === 200) {",
+									"    var jsonData = pm.response.json();",
+									"    pm.environment.set(\"doctor_token\", jsonData.data.token);",
+									"    pm.environment.set(\"token\", jsonData.data.token);",
+									"    console.log(\"Doctor logged in, token saved\");",
+									"}"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"email\": \"doctor@test.com\",\n  \"password\": \"doctor123\"\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/auth/login",
+							"host": ["{{base_url}}"],
+							"path": ["auth", "login"]
+						},
+						"description": "Login with doctor credentials"
+					},
+					"response": []
+				},
+				{
+					"name": "Login Patient",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"if (pm.response.code === 200) {",
+									"    var jsonData = pm.response.json();",
+									"    pm.environment.set(\"patient_token\", jsonData.data.token);",
+									"    pm.environment.set(\"token\", jsonData.data.token);",
+									"    console.log(\"Patient logged in, token saved\");",
+									"}"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"email\": \"patient@test.com\",\n  \"password\": \"patient123\"\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/auth/login",
+							"host": ["{{base_url}}"],
+							"path": ["auth", "login"]
+						},
+						"description": "Login with patient credentials"
+					},
+					"response": []
+				},
+				{
+					"name": "Get Profile",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/auth/profile",
+							"host": ["{{base_url}}"],
+							"path": ["auth", "profile"]
+						},
+						"description": "Get current authenticated user's complete profile with role-specific data"
+					},
+					"response": []
+				}
+			],
+			"description": "Authentication endpoints for registration and login"
+		},
+		{
+			"name": "Admin",
+			"item": [
+				{
+					"name": "Dashboard",
+					"item": [
+						{
+							"name": "Get Dashboard Stats",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{admin_token}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{base_url}}/admin/dashboard",
+									"host": ["{{base_url}}"],
+									"path": ["admin", "dashboard"]
+								},
+								"description": "Get comprehensive system statistics including users, doctors, patients, and appointments"
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Users",
+					"item": [
+						{
+							"name": "Get All Users",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{admin_token}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{base_url}}/admin/users?page=1&limit=10",
+									"host": ["{{base_url}}"],
+									"path": ["admin", "users"],
+									"query": [
+										{
+											"key": "page",
+											"value": "1",
+											"description": "Page number"
+										},
+										{
+											"key": "limit",
+											"value": "10",
+											"description": "Items per page (max 100)"
+										},
+										{
+											"key": "role",
+											"value": "doctor",
+											"description": "Filter by role (admin/doctor/patient)",
+											"disabled": true
+										}
+									]
+								},
+								"description": "Get paginated list of all users with optional role filter"
+							},
+							"response": []
+						},
+						{
+							"name": "Create User",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{admin_token}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"email\": \"newadmin@hospital.com\",\n  \"password\": \"admin123\",\n  \"fullName\": \"New Admin User\",\n  \"role\": \"admin\",\n  \"phone\": \"5555555555\"\n}"
+								},
+								"url": {
+									"raw": "{{base_url}}/admin/users",
+									"host": ["{{base_url}}"],
+									"path": ["admin", "users"]
+								},
+								"description": "Create a new user account (admin, doctor, or patient)"
+							},
+							"response": []
+						},
+						{
+							"name": "Update User",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{admin_token}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "PUT",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"fullName\": \"Updated Name\",\n  \"phone\": \"9999999999\",\n  \"isActive\": true\n}"
+								},
+								"url": {
+									"raw": "{{base_url}}/admin/users/:id",
+									"host": ["{{base_url}}"],
+									"path": ["admin", "users", ":id"],
+									"variable": [
+										{
+											"key": "id",
+											"value": "1",
+											"description": "User ID"
+										}
+									]
+								},
+								"description": "Update user information including activation status"
+							},
+							"response": []
+						},
+						{
+							"name": "Delete User",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{admin_token}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "{{base_url}}/admin/users/:id",
+									"host": ["{{base_url}}"],
+									"path": ["admin", "users", ":id"],
+									"variable": [
+										{
+											"key": "id",
+											"value": "1",
+											"description": "User ID to delete"
+										}
+									]
+								},
+								"description": "Permanently delete a user and all associated data (cascades)"
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Doctors",
+					"item": [
+						{
+							"name": "Get All Doctors",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{admin_token}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{base_url}}/admin/doctors?page=1&limit=10",
+									"host": ["{{base_url}}"],
+									"path": ["admin", "doctors"],
+									"query": [
+										{
+											"key": "page",
+											"value": "1"
+										},
+										{
+											"key": "limit",
+											"value": "10"
+										},
+										{
+											"key": "specialization",
+											"value": "Cardiology",
+											"description": "Filter by specialization",
+											"disabled": true
+										}
+									]
+								},
+								"description": "Get paginated list of all doctors with optional specialization filter"
+							},
+							"response": []
+						},
+						{
+							"name": "Update Doctor",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{admin_token}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "PUT",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"specialization\": \"Neurology\",\n  \"consultationFee\": 750,\n  \"experienceYears\": 15,\n  \"availability\": [\n    {\n      \"day\": \"Tuesday\",\n      \"slots\": [\"10:00-13:00\"]\n    }\n  ]\n}"
+								},
+								"url": {
+									"raw": "{{base_url}}/admin/doctors/:id",
+									"host": ["{{base_url}}"],
+									"path": ["admin", "doctors", ":id"],
+									"variable": [
+										{
+											"key": "id",
+											"value": "1",
+											"description": "Doctor ID"
+										}
+									]
+								},
+								"description": "Update doctor profile information"
+							},
+							"response": []
+						},
+						{
+							"name": "Delete Doctor",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{admin_token}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "{{base_url}}/admin/doctors/:id",
+									"host": ["{{base_url}}"],
+									"path": ["admin", "doctors", ":id"],
+									"variable": [
+										{
+											"key": "id",
+											"value": "1",
+											"description": "Doctor ID"
+										}
+									]
+								},
+								"description": "Delete doctor profile and associated user account"
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Patients",
+					"item": [
+						{
+							"name": "Get All Patients",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{admin_token}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{base_url}}/admin/patients?page=1&limit=10",
+									"host": ["{{base_url}}"],
+									"path": ["admin", "patients"],
+									"query": [
+										{
+											"key": "page",
+											"value": "1"
+										},
+										{
+											"key": "limit",
+											"value": "10"
+										}
+									]
+								},
+								"description": "Get paginated list of all patients"
+							},
+							"response": []
+						},
+						{
+							"name": "Update Patient",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{admin_token}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "PUT",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"address\": \"456 New Street, Updated City\",\n  \"medicalHistory\": \"Updated medical history\",\n  \"gender\": \"Male\"\n}"
+								},
+								"url": {
+									"raw": "{{base_url}}/admin/patients/:id",
+									"host": ["{{base_url}}"],
+									"path": ["admin", "patients", ":id"],
+									"variable": [
+										{
+											"key": "id",
+											"value": "1",
+											"description": "Patient ID"
+										}
+									]
+								},
+								"description": "Update patient profile information"
+							},
+							"response": []
+						},
+						{
+							"name": "Delete Patient",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{admin_token}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "{{base_url}}/admin/patients/:id",
+									"host": ["{{base_url}}"],
+									"path": ["admin", "patients", ":id"],
+									"variable": [
+										{
+											"key": "id",
+											"value": "1",
+											"description": "Patient ID"
+										}
+									]
+								},
+								"description": "Delete patient profile and associated user account"
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Appointments",
+					"item": [
+						{
+							"name": "Get All Appointments",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{admin_token}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{base_url}}/admin/appointments?page=1&limit=10",
+									"host": ["{{base_url}}"],
+									"path": ["admin", "appointments"],
+									"query": [
+										{
+											"key": "page",
+											"value": "1"
+										},
+										{
+											"key": "limit",
+											"value": "10"
+										},
+										{
+											"key": "status",
+											"value": "pending",
+											"description": "Filter by status",
+											"disabled": true
+										},
+										{
+											"key": "doctorId",
+											"value": "1",
+											"description": "Filter by doctor",
+											"disabled": true
+										},
+										{
+											"key": "patientId",
+											"value": "1",
+											"description": "Filter by patient",
+											"disabled": true
+										}
+									]
+								},
+								"description": "Get paginated list of all appointments with optional filters"
+							},
+							"response": []
+						},
+						{
+							"name": "Create Appointment",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{admin_token}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"patientId\": 1,\n  \"doctorId\": 1,\n  \"appointmentDate\": \"2025-11-25\",\n  \"appointmentTime\": \"10:30\",\n  \"reason\": \"Routine checkup and consultation\",\n  \"status\": \"confirmed\"\n}"
+								},
+								"url": {
+									"raw": "{{base_url}}/admin/appointments",
+									"host": ["{{base_url}}"],
+									"path": ["admin", "appointments"]
+								},
+								"description": "Create a new appointment (admin can set any status)"
+							},
+							"response": []
+						},
+						{
+							"name": "Update Appointment",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{admin_token}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "PUT",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"status\": \"completed\",\n  \"notes\": \"Appointment completed successfully. Patient healthy.\"\n}"
+								},
+								"url": {
+									"raw": "{{base_url}}/admin/appointments/:id",
+									"host": ["{{base_url}}"],
+									"path": ["admin", "appointments", ":id"],
+									"variable": [
+										{
+											"key": "id",
+											"value": "1",
+											"description": "Appointment ID"
+										}
+									]
+								},
+								"description": "Update appointment status and notes"
+							},
+							"response": []
+						},
+						{
+							"name": "Delete Appointment",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{admin_token}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "{{base_url}}/admin/appointments/:id",
+									"host": ["{{base_url}}"],
+									"path": ["admin", "appointments", ":id"],
+									"variable": [
+										{
+											"key": "id",
+											"value": "1",
+											"description": "Appointment ID"
+										}
+									]
+								},
+								"description": "Permanently delete an appointment"
+							},
+							"response": []
+						}
+					]
+				}
+			],
+			"description": "Admin endpoints for system management",
+			"auth": {
+				"type": "bearer",
+				"bearer": [
+					{
+						"key": "token",
+						"value": "{{admin_token}}",
+						"type": "string"
+					}
+				]
+			}
+		},
+		{
+			"name": "Doctor",
+			"item": [
+				{
+					"name": "Profile",
+					"item": [
+						{
+							"name": "Get My Profile",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{doctor_token}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{base_url}}/doctor/profile",
+									"host": ["{{base_url}}"],
+									"path": ["doctor", "profile"]
+								},
+								"description": "Get complete doctor profile with specialization and availability"
+							},
+							"response": []
+						},
+						{
+							"name": "Update My Profile",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{doctor_token}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "PUT",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"specialization\": \"Cardiology\",\n  \"qualifications\": \"MD, MBBS, PhD, FACC\",\n  \"experienceYears\": 12,\n  \"consultationFee\": 550\n}"
+								},
+								"url": {
+									"raw": "{{base_url}}/doctor/profile",
+									"host": ["{{base_url}}"],
+									"path": ["doctor", "profile"]
+								},
+								"description": "Update own profile information"
+							},
+							"response": []
+						},
+						{
+							"name": "Update Availability",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{doctor_token}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "PUT",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"availability\": [\n    {\n      \"day\": \"Monday\",\n      \"slots\": [\"09:00-12:00\", \"14:00-17:00\"]\n    },\n    {\n      \"day\": \"Wednesday\",\n      \"slots\": [\"10:00-13:00\", \"15:00-18:00\"]\n    },\n    {\n      \"day\": \"Friday\",\n      \"slots\": [\"09:00-11:00\", \"14:00-16:00\"]\n    }\n  ]\n}"
+								},
+								"url": {
+									"raw": "{{base_url}}/doctor/availability",
+									"host": ["{{base_url}}"],
+									"path": ["doctor", "availability"]
+								},
+								"description": "Update weekly availability schedule"
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Statistics",
+					"item": [
+						{
+							"name": "Get My Stats",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{doctor_token}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{base_url}}/doctor/stats",
+									"host": ["{{base_url}}"],
+									"path": ["doctor", "stats"]
+								},
+								"description": "Get personal statistics (appointments, patients count)"
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Appointments",
+					"item": [
+						{
+							"name": "Get My Appointments",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{doctor_token}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{base_url}}/doctor/appointments?page=1&limit=10",
+									"host": ["{{base_url}}"],
+									"path": ["doctor", "appointments"],
+									"query": [
+										{
+											"key": "page",
+											"value": "1"
+										},
+										{
+											"key": "limit",
+											"value": "10"
+										},
+										{
+											"key": "status",
+											"value": "pending",
+											"description": "Filter by status",
+											"disabled": true
+										}
+									]
+								},
+								"description": "Get own appointments with optional status filter"
+							},
+							"response": []
+						},
+						{
+							"name": "Get Appointment Details",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{doctor_token}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{base_url}}/doctor/appointments/:id",
+									"host": ["{{base_url}}"],
+									"path": ["doctor", "appointments", ":id"],
+									"variable": [
+										{
+											"key": "id",
+											"value": "1",
+											"description": "Appointment ID"
+										}
+									]
+								},
+								"description": "Get detailed appointment information including patient details"
+							},
+							"response": []
+						},
+						{
+							"name": "Approve Appointment",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{doctor_token}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "PUT",
+								"header": [],
+								"url": {
+									"raw": "{{base_url}}/doctor/appointments/:id/approve",
+									"host": ["{{base_url}}"],
+									"path": ["doctor", "appointments", ":id", "approve"],
+									"variable": [
+										{
+											"key": "id",
+											"value": "1",
+											"description": "Appointment ID"
+										}
+									]
+								},
+								"description": "Approve a pending appointment (changes status to confirmed)"
+							},
+							"response": []
+						},
+						{
+							"name": "Cancel Appointment",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{doctor_token}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "PUT",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"notes\": \"Emergency surgery scheduled. Need to reschedule.\"\n}"
+								},
+								"url": {
+									"raw": "{{base_url}}/doctor/appointments/:id/cancel",
+									"host": ["{{base_url}}"],
+									"path": ["doctor", "appointments", ":id", "cancel"],
+									"variable": [
+										{
+											"key": "id",
+											"value": "1",
+											"description": "Appointment ID"
+										}
+									]
+								},
+								"description": "Cancel an appointment with optional notes"
+							},
+							"response": []
+						},
+						{
+							"name": "Complete Appointment",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{doctor_token}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "PUT",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"notes\": \"Patient examined successfully. Vitals normal. Prescribed medication for 7 days. Follow-up in 2 weeks.\"\n}"
+								},
+								"url": {
+									"raw": "{{base_url}}/doctor/appointments/:id/complete",
+									"host": ["{{base_url}}"],
+									"path": ["doctor", "appointments", ":id", "complete"],
+									"variable": [
+										{
+											"key": "id",
+											"value": "1",
+											"description": "Appointment ID"
+										}
+									]
+								},
+								"description": "Mark appointment as completed with consultation notes"
+							},
+							"response": []
+						},
+						{
+							"name": "Add Notes to Appointment",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{doctor_token}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "PUT",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"notes\": \"Follow-up required in 2 weeks. Blood pressure monitoring recommended. Diet changes suggested.\"\n}"
+								},
+								"url": {
+									"raw": "{{base_url}}/doctor/appointments/:id/notes",
+									"host": ["{{base_url}}"],
+									"path": ["doctor", "appointments", ":id", "notes"],
+									"variable": [
+										{
+											"key": "id",
+											"value": "1",
+											"description": "Appointment ID"
+										}
+									]
+								},
+								"description": "Add or update notes for an appointment"
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Patients",
+					"item": [
+						{
+							"name": "Get My Patients",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{doctor_token}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{base_url}}/doctor/patients?page=1&limit=10",
+									"host": ["{{base_url}}"],
+									"path": ["doctor", "patients"],
+									"query": [
+										{
+											"key": "page",
+											"value": "1"
+										},
+										{
+											"key": "limit",
+											"value": "10"
+										}
+									]
+								},
+								"description": "Get list of patients who have had appointments"
+							},
+							"response": []
+						}
+					]
+				}
+			],
+			"description": "Doctor endpoints for managing profile and appointments",
+			"auth": {
+				"type": "bearer",
+				"bearer": [
+					{
+						"key": "token",
+						"value": "{{doctor_token}}",
+						"type": "string"
+					}
+				]
+			}
+		},
+		{
+			"name": "Patient",
+			"item": [
+				{
+					"name": "Profile",
+					"item": [
+						{
+							"name": "Get My Profile",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{patient_token}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{base_url}}/patient/profile",
+									"host": ["{{base_url}}"],
+									"path": ["patient", "profile"]
+								},
+								"description": "Get complete patient profile with medical history"
+							},
+							"response": []
+						},
+						{
+							"name": "Update My Profile",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{patient_token}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "PUT",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"dateOfBirth\": \"1990-05-15\",\n  \"gender\": \"Male\",\n  \"address\": \"456 New Street, Updated City, State 54321\",\n  \"medicalHistory\": \"Allergic to penicillin. No other known conditions. Previous surgery: Appendectomy (2015)\"\n}"
+								},
+								"url": {
+									"raw": "{{base_url}}/patient/profile",
+									"host": ["{{base_url}}"],
+									"path": ["patient", "profile"]
+								},
+								"description": "Update own profile and medical history"
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Statistics",
+					"item": [
+						{
+							"name": "Get My Stats",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{patient_token}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{base_url}}/patient/stats",
+									"host": ["{{base_url}}"],
+									"path": ["patient", "stats"]
+								},
+								"description": "Get personal statistics (total, pending, completed appointments)"
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Doctors",
+					"item": [
+						{
+							"name": "Browse All Doctors",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{patient_token}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{base_url}}/patient/doctors?page=1&limit=10",
+									"host": ["{{base_url}}"],
+									"path": ["patient", "doctors"],
+									"query": [
+										{
+											"key": "page",
+											"value": "1"
+										},
+										{
+											"key": "limit",
+											"value": "10"
+										},
+										{
+											"key": "specialization",
+											"value": "Cardiology",
+											"description": "Filter by specialization",
+											"disabled": true
+										}
+									]
+								},
+								"description": "Browse all active doctors with optional specialization filter"
+							},
+							"response": []
+						},
+						{
+							"name": "Get Doctor Details",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{patient_token}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{base_url}}/patient/doctors/:id",
+									"host": ["{{base_url}}"],
+									"path": ["patient", "doctors", ":id"],
+									"variable": [
+										{
+											"key": "id",
+											"value": "1",
+											"description": "Doctor ID"
+										}
+									]
+								},
+								"description": "Get detailed doctor information including availability and qualifications"
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Appointments",
+					"item": [
+						{
+							"name": "Book Appointment",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{patient_token}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"doctorId\": 1,\n  \"appointmentDate\": \"2025-11-25\",\n  \"appointmentTime\": \"10:30\",\n  \"reason\": \"Chest pain consultation and routine checkup\"\n}"
+								},
+								"url": {
+									"raw": "{{base_url}}/patient/appointments",
+									"host": ["{{base_url}}"],
+									"path": ["patient", "appointments"]
+								},
+								"description": "Book a new appointment with a doctor (validates for double-booking and past dates)"
+							},
+							"response": []
+						},
+						{
+							"name": "Get My Appointments",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{patient_token}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{base_url}}/patient/appointments?page=1&limit=10",
+									"host": ["{{base_url}}"],
+									"path": ["patient", "appointments"],
+									"query": [
+										{
+											"key": "page",
+											"value": "1"
+										},
+										{
+											"key": "limit",
+											"value": "10"
+										},
+										{
+											"key": "status",
+											"value": "pending",
+											"description": "Filter by status",
+											"disabled": true
+										}
+									]
+								},
+								"description": "Get own appointments with optional status filter"
+							},
+							"response": []
+						},
+						{
+							"name": "Get Appointment Details",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{patient_token}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{base_url}}/patient/appointments/:id",
+									"host": ["{{base_url}}"],
+									"path": ["patient", "appointments", ":id"],
+									"variable": [
+										{
+											"key": "id",
+											"value": "1",
+											"description": "Appointment ID"
+										}
+									]
+								},
+								"description": "Get detailed appointment information including doctor details and notes"
+							},
+							"response": []
+						},
+						{
+							"name": "Cancel My Appointment",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{patient_token}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "PUT",
+								"header": [],
+								"url": {
+									"raw": "{{base_url}}/patient/appointments/:id/cancel",
+									"host": ["{{base_url}}"],
+									"path": ["patient", "appointments", ":id", "cancel"],
+									"variable": [
+										{
+											"key": "id",
+											"value": "1",
+											"description": "Appointment ID"
+										}
+									]
+								},
+								"description": "Cancel own appointment (only pending or confirmed appointments)"
+							},
+							"response": []
+						},
+						{
+							"name": "Get Appointment History",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{patient_token}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{base_url}}/patient/appointment-history?page=1&limit=10",
+									"host": ["{{base_url}}"],
+									"path": ["patient", "appointment-history"],
+									"query": [
+										{
+											"key": "page",
+											"value": "1"
+										},
+										{
+											"key": "limit",
+											"value": "10"
+										}
+									]
+								},
+								"description": "Get complete appointment history with all statuses"
+							},
+							"response": []
+						}
+					]
+				}
+			],
+			"description": "Patient endpoints for managing appointments and viewing doctors",
+			"auth": {
+				"type": "bearer",
+				"bearer": [
+					{
+						"key": "token",
+						"value": "{{patient_token}}",
+						"type": "string"
+					}
+				]
+			}
+		},
+		{
+			"name": "Health Check",
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{base_url}}/health",
+					"host": ["{{base_url}}"],
+					"path": ["health"]
+				},
+				"description": "Check if API server is running and healthy"
+			},
+			"response": []
+		}
+	],
+	"variable": [
+		{
+			"key": "base_url",
+			"value": "http://localhost:5000/api",
+			"type": "string"
+		}
+	]
+}
